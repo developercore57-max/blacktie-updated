@@ -736,10 +736,10 @@ export default function NewOrder() {
                     <div className="flex items-center gap-3 shrink-0">
                       <div className="text-right">
                         <p className="font-bold text-sm text-foreground">
-                          {inclVat === 0 ? "Free" : `${formatZar(inclVat)}`}
+                          {exclVat === 0 ? "Free" : `${formatZar(exclVat)}`}
                         </p>
                         <p className="text-[10px] text-muted-foreground">
-                          {MONTHLY_TYPES.has(itemTypeForTab) ? "incl VAT/mo" : "incl VAT"}
+                          {MONTHLY_TYPES.has(itemTypeForTab) ? "excl VAT/mo" : "excl VAT"}
                         </p>
                       </div>
 
