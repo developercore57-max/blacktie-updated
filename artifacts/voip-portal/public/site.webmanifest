@@ -1,0 +1,11 @@
+{
+  "name": "Black Tie VoIP Reseller Portal",
+  "short_name": "BTV Reseller",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0b0c",
+  "theme_color": "#4BA3E3",
+  "icons": [
+    { "src": "/Blacktie%20VoIP%20Black.png", "sizes": "any", "type": "image/png" }
+  ]
+}

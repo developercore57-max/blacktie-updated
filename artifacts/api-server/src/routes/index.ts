@@ -1,0 +1,40 @@
+import { Router, type IRouter } from "express";
+import healthRouter from "./health";
+import storageRouter from "./storage";
+import authRouter from "./auth";
+import adminRouter from "./admin";
+import adminSyncRouter from "./admin-sync";
+import resellerRouter from "./reseller";
+import catalogRouter from "./catalog";
+import didsRouter from "./dids";
+import ordersRouter from "./orders";
+import settingsRouter from "./settings";
+import noticesRouter from "./notices";
+import reportsRouter from "./reports";
+import coverageRouter from "./coverage";
+import chatRouter from "./chat";
+import documentsRouter from "./documents";
+import numberPortingRouter from "./number-porting";
+import configRouter from "./config";
+
+const router: IRouter = Router();
+
+router.use(healthRouter);
+router.use(storageRouter);
+router.use("/auth", authRouter);
+router.use("/admin", adminRouter);
+router.use("/admin", adminSyncRouter);
+router.use("/admin", settingsRouter);
+router.use("/reseller", resellerRouter);
+router.use(catalogRouter);
+router.use(didsRouter);
+router.use(ordersRouter);
+router.use(noticesRouter);
+router.use(documentsRouter);
+router.use(reportsRouter);
+router.use(coverageRouter);
+router.use(chatRouter);
+router.use(numberPortingRouter);
+router.use(configRouter);
+
+export default router;

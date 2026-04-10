@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fibre Coverage Map</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; font-family: sans-serif; }
+    #fibrecontainer { width: 100%; }
+    input#address-input {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      outline: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    input#address-input:focus { border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,0.2); }
+    #fibremap { width: 100%; height: 480px; }
+  </style>
+</head>
+<body>
+<script type="text/javascript" id="fibrescript">
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var key = params.get('key') || '';
+  if (!key) {
+    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#6b7280;font-size:14px;">No API key configured</div>';
+    return;
+  }
+  var ax = document.createElement('script');
+  ax.id = 'mainscript';
+  ax.type = 'text/javascript';
+  ax.async = true;
+  ax.src = 'https://rcp.axxess.co.za/public/js/fibremapJs.php?key=' + encodeURIComponent(key) + '&width=100%25&height=480px';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(ax, s);
+
+  /* ── Address watcher: detect place selection & send to parent ── */
+  var lastAddr = '';
+  function startWatching() {
+    var input = document.querySelector('.pac-target-input')
+             || document.getElementById('address-input')
+             || document.querySelector('input[type="text"]')
+             || document.querySelector('input:not([type])');
+    if (!input) { setTimeout(startWatching, 500); return; }
+
+    setInterval(function() {
+      var val = input.value;
+      if (val && val !== lastAddr && val.length > 10) {
+        var pac = document.querySelector('.pac-container');
+        var pacHidden = !pac || pac.style.display === 'none' || !pac.offsetParent;
+        if (pacHidden) {
+          lastAddr = val;
+          setTimeout(function() {
+            var status = detectCoverage();
+            if (window.parent !== window) {
+              window.parent.postMessage({
+                type: 'coverage-result',
+                address: val,
+                status: status,
+                coverageType: 'fibre'
+              }, '*');
+            }
+          }, 2500);
+        }
+      }
+    }, 800);
+  }
+
+  function detectCoverage() {
+    var text = document.body.innerText.toLowerCase();
+    if (/(coverage|fibre).{0,20}available/i.test(text) && !/not\s+available/i.test(text)) return 'available';
+    if (/not\s+available|no\s+coverage|out\s+of\s+range/i.test(text)) return 'not_available';
+
+    var iws = document.querySelectorAll('.gm-style-iw-d, .gm-style-iw-c, .gm-style-iw');
+    for (var i = 0; i < iws.length; i++) {
+      var t = iws[i].textContent.toLowerCase();
+      if (t.includes('available') && !t.includes('not available')) return 'available';
+      if (t.includes('not available') || t.includes('unavailable')) return 'not_available';
+    }
+
+    var mapDiv = document.getElementById('fibremap') || document.querySelector('.gm-style');
+    if (mapDiv) {
+      var svgs = mapDiv.querySelectorAll('svg path[fill], svg polygon[fill]');
+      if (svgs.length > 0) return 'available';
+    }
+    return 'unknown';
+  }
+
+  setTimeout(startWatching, 2500);
+})();
+</script>
+</body>
+</html>
