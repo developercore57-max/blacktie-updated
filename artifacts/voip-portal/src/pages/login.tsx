@@ -330,6 +330,16 @@ export default function Login() {
                           Apply as a reseller
                         </button>
                       </p>
+                      <div className="mt-3 text-center">
+                        <a
+                          href="https://voipreseller.co.za/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-white transition-colors"
+                        >
+                          <Globe className="w-3.5 h-3.5" /> Main Site
+                        </a>
+                      </div>
                     </motion.div>
                   )}
 
