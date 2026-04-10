@@ -540,11 +540,6 @@ export default function AdminProductsCatalog() {
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between mt-1">
-                        <span className={`text-[10px] px-1.5 py-0.5 rounded font-semibold ${product.stockCount > 0 ? "bg-black/5 text-foreground" : "bg-red-500/10 text-red-400"}`}>
-                          {product.stockCount} in stock
-                        </span>
-                      </div>
                     </div>
 
                     <div className="px-3 pb-3 flex gap-2">
@@ -572,7 +567,6 @@ export default function AdminProductsCatalog() {
                     <th className="px-4 py-4 font-semibold">Product</th>
                     <th className="px-4 py-4 font-semibold">SKU</th>
                     <th className="px-4 py-4 font-semibold">Reseller excl VAT</th>
-                    <th className="px-4 py-4 font-semibold">Stock</th>
                     <th className="px-4 py-4 font-semibold">Status</th>
                     <th className="px-4 py-4 font-semibold text-right">Actions</th>
                   </tr>
@@ -620,11 +614,6 @@ export default function AdminProductsCatalog() {
                       <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{product.sku || "—"}</td>
                       <td className="px-4 py-3 font-medium text-primary text-sm">
                         {(product as any).resellerPriceExclVat != null ? formatZar((product as any).resellerPriceExclVat) : <span className="text-muted-foreground">—</span>}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`px-2 py-1 rounded text-xs font-semibold ${product.stockCount > 0 ? "bg-black/5 text-foreground" : "bg-red-500/10 text-red-400"}`}>
-                          {product.stockCount} in stock
-                        </span>
                       </td>
                       <td className="px-4 py-3">
                         <span className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
