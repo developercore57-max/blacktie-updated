@@ -14,11 +14,14 @@ function requireAuth(req: Request, res: Response, next: NextFunction) {
 router.get("/config/google-maps-key", requireAuth, async (_req, res) => {
   try {
     const [settings] = await db.select({ apiSecrets: companySettingsTable.apiSecrets }).from(companySettingsTable).limit(1);
-    if (!settings?.apiSecrets) return res.json({ key: null });
-    const secrets = JSON.parse(settings.apiSecrets);
-    return res.json({ key: secrets.googleMapsApiKey || secrets.google_maps_key || null });
+    if (settings?.apiSecrets) {
+      const secrets = JSON.parse(settings.apiSecrets);
+      const dbKey = secrets.googleMapsApiKey || secrets.google_maps_key || null;
+      if (dbKey) return res.json({ key: dbKey });
+    }
+    return res.json({ key: process.env.GOOGLE_MAPS_API_KEY || null });
   } catch {
-    return res.json({ key: null });
+    return res.json({ key: process.env.GOOGLE_MAPS_API_KEY || null });
   }
 });
 
