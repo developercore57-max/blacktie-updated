@@ -634,16 +634,12 @@ export default function AdminServicesCatalog() {
             </div>
 
             <div className="col-span-2">
-              <div className="rounded-xl border border-border/50 bg-muted/10 p-4 space-y-3">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Pricing (ZAR)</p>
-                <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Reseller excl VAT</label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-medium">R</span>
-                    <input type="number" step="0.01" min="0" value={serviceForm.resellerPriceExclVat} onChange={e => handleResellerPriceChange(e.target.value)} className="w-full pl-7 pr-3 py-2.5 rounded-xl bg-background border border-border text-foreground focus:ring-2 focus:ring-primary/50 outline-none text-sm" placeholder="0.00" />
-                  </div>
-                </div>
-              </div>
+              <label className="block text-sm font-medium text-muted-foreground mb-1.5">Description</label>
+              <RichTextEditor
+                value={serviceForm.description}
+                onChange={(html) => setServiceForm(f => ({ ...f, description: html }))}
+                placeholder="Features and details…"
+              />
             </div>
 
             <div className="col-span-2 sm:col-span-1">
@@ -662,13 +658,18 @@ export default function AdminServicesCatalog() {
                 <option value="inactive">Inactive</option>
               </select>
             </div>
+
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-muted-foreground mb-1.5">Description</label>
-              <RichTextEditor
-                value={serviceForm.description}
-                onChange={(html) => setServiceForm(f => ({ ...f, description: html }))}
-                placeholder="Features and details…"
-              />
+              <div className="rounded-xl border border-border/50 bg-muted/10 p-4 space-y-3">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Pricing (ZAR)</p>
+                <div>
+                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Reseller excl VAT</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-medium">R</span>
+                    <input type="number" step="0.01" min="0" value={serviceForm.resellerPriceExclVat} onChange={e => handleResellerPriceChange(e.target.value)} className="w-full pl-7 pr-3 py-2.5 rounded-xl bg-background border border-border text-foreground focus:ring-2 focus:ring-primary/50 outline-none text-sm" placeholder="0.00" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="pt-4 flex justify-end gap-3">
